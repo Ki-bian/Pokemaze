@@ -28,7 +28,7 @@ class App extends Component {
           {
             this.state.labyrinth.map((row, index) => (
             <tr key={row[0]}>
-              {row.map(tileId => <th key={tileId}><div><img src={tileId +".png"}/></div></th>)}
+              {row.map(tileId => <th key={tileId}><div><img src={"./assets/tiles/"+ tileId +".png"}/></div></th>)}
             </tr>
           ))
           }
