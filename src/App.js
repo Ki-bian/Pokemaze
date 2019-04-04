@@ -20,8 +20,8 @@ class App extends Component {
         [1,1,1,1,1,1,0,1,1,1,1,1,1,0]
       ],
       player1: {
-        posX: 2,
-        poxY: 10,
+        posX: 1,
+        poxY: 3,
         img: 'batman'
       }
     }
