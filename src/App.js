@@ -19,12 +19,18 @@ class App extends Component {
         [1,1,1,1,1,1,0,1,1,1,1,1,1,0],
         [1,1,1,1,1,1,0,1,1,1,1,1,1,0]
       ],
-      player1: {
-        posX: 1,
-        poxY: 3,
-        img: 'batman'
-      }
+      posX: 0,
+      poxY: 0,
+      img: 'batman'
     }
+  }
+  goRight() {
+    const posX = this.state.posX + 1
+    this.setState({posX})
+  }
+  goLeft() {
+    const posX = this.state.posX -1
+    this.setState({posX})
   }
   render() {
     return (
@@ -38,11 +44,11 @@ class App extends Component {
                   <div className="tile">
                     <img className="tileset" src={"./assets/tiles/"+ tileId +".png"} alt="tile"/>
                       {
-                        (rowIndex === this.state.player1.posX && colIndex === this.state.player1.poxY)?
-                        <img className="character" src={"./assets/characters/"+ this.state.player1.img +".png"} alt="character"/>
+                        (rowIndex === this.state.posX && colIndex === this.state.poxY)?
+                        <img className="character" src={"./assets/characters/"+ this.state.img +".png"} alt="character"/>
                         : null
                       }
-                      {console.log(rowIndex, colIndex, this.state.player1.posX, this.state.player1.poxY)}
+                      {console.log(rowIndex, colIndex, this.state.posX, this.state.poxY)}
                   </div>
                 </th>
               )}
@@ -50,6 +56,8 @@ class App extends Component {
           ))
           }
         </table>
+        <button onClick={() => this.goRight()}>Right</button>
+        <button onClick={() => this.goLeft()}>Left</button>
       </div>
     );
   }
