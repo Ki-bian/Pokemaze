@@ -28,4 +28,5 @@ table {
 .character {
   position: relative;
   z-index: 1;
+  top: -8px;
 }
