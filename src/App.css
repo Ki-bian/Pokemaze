@@ -7,8 +7,9 @@ th {
 }
 
 th div {
-  overflow: hidden;
+  background-size: cover;
   height: 48px;
+  width: 48px;
 }
 
 .tile {
@@ -25,7 +26,6 @@ table {
 }
 
 .character {
-  position: absolute;
+  position: relative;
   z-index: 1;
-  right: 2px;
 }
