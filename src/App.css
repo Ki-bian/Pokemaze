@@ -7,7 +7,7 @@ th {
 }
 
 th div {
-  background-size: cover;
+  background-size: contain;
   height: 48px;
   width: 48px;
 }
