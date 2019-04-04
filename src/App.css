@@ -2,17 +2,30 @@
   text-align: center;
 }
 
-th{
-  padding:0;
+th {
+  padding: 0;
 }
+
 th div {
-    overflow: hidden;
-    height: 40px;
+  overflow: hidden;
+  height: 40px;
 }
-img{
-    width: 100%;
-    height: 100%;
+
+.tile {
+  position: relative;
 }
-table{
-    border-collapse: collapse;
+
+.tileset {
+  z-index: 0;
+  width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.character {
+  position: absolute;
+  z-index: 1;
+  right: 2px;
 }
