@@ -7,8 +7,9 @@ th {
 }
 
 th div {
-  overflow: hidden;
+  background-size: cover;
   height: 48px;
+  width: 48px;
 }
 
 .tile {

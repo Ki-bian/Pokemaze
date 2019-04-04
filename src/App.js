@@ -41,8 +41,8 @@ class App extends Component {
             <tr key={rowIndex}>
               {row.map((tileId, colIndex) => 
                 <th key={colIndex}>
-                  <div className="tile">
-                    <img className="tileset" src={"./assets/tiles/"+ tileId +".png"} alt="tile"/>
+                  <div className="tile" style={{ backgroundImage: `url(${"./assets/tiles/" + tileId +".png"})` }}>
+            
                       {
                         (rowIndex === this.state.posY && colIndex === this.state.posX)?
                         <img className="character" src={"./assets/characters/"+ this.state.img +".png"} alt="character"/>
