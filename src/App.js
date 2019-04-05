@@ -27,6 +27,8 @@ class App extends Component {
       img: 'charBottom'
     }
   }
+
+  //    Checks if tile is an obstacle in the labyrinth after a move (tiles named "500"+)
   checkTile(x, y){
     if (parseInt(this.state.labyrinth[this.state.posY + y][this.state.posX + x]) >= 500)
       return false
@@ -90,13 +92,13 @@ class App extends Component {
               {row.map((tileId, colIndex) => 
                 <th key={colIndex}>
                   <div className="tile" style={{ backgroundImage: `url(${"./assets/tiles/" + tileId +".png"})` }}>
-            
-                      {
+
+                      { // Renders character. 
+                        // TO DO : put it in a separate div and calculate position (pixel? vw?) so it doesn't rerender the whole labyrinth
                         (rowIndex === this.state.posY && colIndex === this.state.posX)?
                         <img className="character" src={"./assets/characters/"+ this.state.img +".png"} alt="character"/>
                         : null
                       }
-                      {console.log(rowIndex, colIndex, this.state.posX, this.state.posY)}
                   </div>
                 </th>
               )}
