@@ -27,10 +27,15 @@ class App extends Component {
       img: 'charBottom'
     }
   }
+  checkTile(x, y){
+    if (parseInt(this.state.labyrinth[this.state.posY + y][this.state.posX + x]) >= 500)
+      return false
+    return true
+  }
   goRight(event) {
     if(event.keyCode === 39) {
       this.setState({img: "charRight"})
-      if(this.state.posX + 1 < this.state.labyrinth[this.state.posY].length){
+      if(this.state.posX + 1 < this.state.labyrinth[this.state.posY].length && this.checkTile(1,0)){
         const posX = this.state.posX + 1
         this.setState({posX})
       }
@@ -39,7 +44,7 @@ class App extends Component {
   goLeft(event) {
     if(event.keyCode === 37) {
       this.setState({img: "charLeft"})
-      if(this.state.posX > 0){
+      if(this.state.posX > 0 && this.checkTile(-1,0)){
         const posX = this.state.posX -1
         this.setState({posX})
       }
@@ -48,7 +53,7 @@ class App extends Component {
   goTop(event) {
     if(event.keyCode === 40) {
       this.setState({img: "charBottom"})
-      if(this.state.posY + 1 < this.state.labyrinth.length){
+      if(this.state.posY + 1 < this.state.labyrinth.length && this.checkTile(0,1)){
         const posY = this.state.posY + 1
         this.setState({posY})
       }
@@ -57,7 +62,7 @@ class App extends Component {
   goBottom(event) {
     if(event.keyCode === 38) {
       this.setState({img: "charTop"})
-      if(this.state.posY > 0){
+      if(this.state.posY > 0 && this.checkTile(0,-1)){
         const posY = this.state.posY - 1
         this.setState({posY})
       }
