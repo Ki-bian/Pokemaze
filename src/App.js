@@ -42,7 +42,7 @@ class Game extends Component {
 class Board extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="Board">
         <table>
           {
             this.props.labyrinth.map((row, rowIndex) => (
@@ -139,8 +139,7 @@ class Player extends Component {
               {row.map((tileId, colIndex) => 
                 <th key={colIndex}>
                   <div className="tile">
-                      { // Renders character. 
-                        // TO DO : put it in a separate div and calculate position (pixel? vw?) so it doesn't rerender the whole labyrinth
+                      {
                         (rowIndex === this.state.posY && colIndex === this.state.posX)?
                         <img className="character" src={"./assets/characters/"+ this.state.img +".png"} alt="character"/>
                         : null
