@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
+  render() {
+    return (
+      <Game />
+    )
+  }
+}
+
+
+class Game extends Component {
   constructor(props){
     super(props)
-    this.goTop = this.goTop.bind(this);
-    this.goBottom = this.goBottom.bind(this);
-    this.goRight = this.goRight.bind(this);
-    this.goLeft = this.goLeft.bind(this);
     this.state = {
       labyrinth: [
         ['500','002','500','500','500','500','500','500','500','500','500','022','500','500','500','500','500','500','500','500','500','500','500','500','500'],
@@ -20,24 +25,66 @@ class App extends Component {
         ['500','004','500','500','008','500','500','000','500','500','008','500','500','008','500','500','008','500','500','500','500','500','500','008','500'],
         ['500','003','010','010','008','500','000','008','008','008','008','008','008','008','008','008','008','008','008','008','008','008','008','008','500'],
         ['500','000','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500']
-      ],
+      ]
+    }
+  }
 
+  render() {
+    return (
+      <div className="Game">
+        <Board labyrinth={this.state.labyrinth}/>
+        <Player labyrinth={this.state.labyrinth}/>
+      </div>
+    );
+  }
+}
+
+class Board extends Component {
+  render() {
+    return (
+      <div className="App">
+        <table>
+          {
+            this.props.labyrinth.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {row.map((tileId, colIndex) => 
+                <th key={colIndex}>
+                  <div className="tile" style={{ backgroundImage: `url(${"./assets/tiles/" + tileId +".png"})` }} />
+                </th>
+              )}
+            </tr>
+          ))
+          }
+        </table>
+      </div>
+    );
+  }
+}
+
+
+class Player extends Component {
+  constructor(props){
+    super(props)
+    this.goTop = this.goTop.bind(this);
+    this.goBottom = this.goBottom.bind(this);
+    this.goRight = this.goRight.bind(this);
+    this.goLeft = this.goLeft.bind(this);
+    this.state = {
       posX: 1,
       posY: 0,
       img: 'charBottom'
     }
   }
-
   //    Checks if tile is an obstacle in the labyrinth after a move (tiles named "500"+)
   checkTile(x, y){
-    if (parseInt(this.state.labyrinth[this.state.posY + y][this.state.posX + x]) >= 500)
+    if (parseInt(this.props.labyrinth[this.state.posY + y][this.state.posX + x]) >= 500)
       return false
     return true
   }
   goRight(event) {
     if(event.keyCode === 39) {
       this.setState({img: "charRight"})
-      if(this.state.posX + 1 < this.state.labyrinth[this.state.posY].length && this.checkTile(1,0)){
+      if(this.state.posX + 1 < this.props.labyrinth[this.state.posY].length && this.checkTile(1,0)){
         const posX = this.state.posX + 1
         this.setState({posX})
       }
@@ -55,7 +102,7 @@ class App extends Component {
   goTop(event) {
     if(event.keyCode === 40) {
       this.setState({img: "charBottom"})
-      if(this.state.posY + 1 < this.state.labyrinth.length && this.checkTile(0,1)){
+      if(this.state.posY + 1 < this.props.labyrinth.length && this.checkTile(0,1)){
         const posY = this.state.posY + 1
         this.setState({posY})
       }
@@ -84,15 +131,14 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <div className="Player">
         <table>
           {
-            this.state.labyrinth.map((row, rowIndex) => (
+            this.props.labyrinth.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.map((tileId, colIndex) => 
                 <th key={colIndex}>
-                  <div className="tile" style={{ backgroundImage: `url(${"./assets/tiles/" + tileId +".png"})` }}>
-
+                  <div className="tile">
                       { // Renders character. 
                         // TO DO : put it in a separate div and calculate position (pixel? vw?) so it doesn't rerender the whole labyrinth
                         (rowIndex === this.state.posY && colIndex === this.state.posX)?
@@ -110,5 +156,6 @@ class App extends Component {
     );
   }
 }
+
 
 export default App;
