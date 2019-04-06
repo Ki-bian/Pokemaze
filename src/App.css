@@ -1,4 +1,4 @@
-.App {
+.Game {
   text-align: center;
 }
 
@@ -16,13 +16,16 @@ th div {
   position: relative;
 }
 
-.tileset {
-  z-index: 0;
-  width: 100%;
-}
-
 table {
   border-collapse: collapse;
+}
+
+.capacityStyle {
+    z-index: 1;
+    position: relative;
+    background-size: contain;
+    height: 60px;
+    width: 60px;
 }
 
 /*.character {
@@ -31,10 +34,11 @@ table {
   top: 0;
   left:11px;
 }
-*/
+
 .Player{
 z-index: 1;
 background-size: contain;
 height: 48px;
 width: 48px;
 }
+*/
