@@ -12,7 +12,7 @@ th div {
   width: 48px;
 }
 
-.tile {
+.Tile {
   position: relative;
 }
 
@@ -25,8 +25,16 @@ table {
   border-collapse: collapse;
 }
 
-.character {
-  position: relative;
+/*.character {
+  position: absolute;
   z-index: 1;
-  top: -8px;
+  top: 0;
+  left:11px;
+}
+*/
+.Player{
+z-index: 1;
+background-size: contain;
+height: 48px;
+width: 48px;
 }

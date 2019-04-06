@@ -11,29 +11,13 @@ class App extends Component {
 
 
 class Game extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      labyrinth: [
-        ['500','002','500','500','500','500','500','500','500','500','500','022','500','500','500','500','500','500','500','500','500','500','500','500','500'],
-        ['500','004','010','010','008','008','008','008','008','500','500','023','500','500','500','008','008','500','500','008','008','008','008','008','500'],
-        ['500','003','500','500','010','500','500','500','008','008','008','024','500','500','008','500','008','500','008','008','500','500','500','008','500'],
-        ['500','000','500','501','008','000','000','500','008','500','500','024','008','008','008','500','008','500','008','500','500','008','500','008','500'],
-        ['500','002','500','008','502','503','000','500','008','500','008','024','500','500','008','500','008','008','008','500','500','008','500','008','500'],
-        ['500','003','500','016','505','504','500','500','008','500','008','008','500','500','008','500','500','500','008','500','008','008','500','008','500'],
-        ['500','002','500','015','008','008','008','008','008','500','008','008','008','008','008','500','008','008','008','008','008','500','500','500','500'],
-        ['500','004','500','500','008','500','500','000','500','500','008','500','500','008','500','500','008','500','500','500','500','500','500','008','500'],
-        ['500','003','010','010','008','500','000','008','008','008','008','008','008','008','008','008','008','008','008','008','008','008','008','008','500'],
-        ['500','000','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500','500']
-      ]
-    }
-  }
-
   render() {
+    const labyrinths = require('./labyrinths.json');
+    const labyrinth = labyrinths.labyrinth1
     return (
       <div className="Game">
-        <Board labyrinth={this.state.labyrinth}/>
-        <Player labyrinth={this.state.labyrinth}/>
+        <Board labyrinth={labyrinth} />
+        <Player labyrinth={labyrinth} />
       </div>
     );
   }
@@ -44,114 +28,113 @@ class Board extends Component {
     return (
       <div className="Board">
         <table>
-          {
-            this.props.labyrinth.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {row.map((tileId, colIndex) => 
-                <th key={colIndex}>
-                  <div className="tile" style={{ backgroundImage: `url(${"./assets/tiles/" + tileId +".png"})` }} />
-                </th>
-              )}
-            </tr>
-          ))
-          }
+          <tbody>
+            {
+              this.props.labyrinth.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {row.map((tileId, colIndex) =>
+                    <th key={colIndex}>
+                      <Tile tileId={tileId} />
+                    </th>
+                  )}
+                </tr>
+              ))
+            }
+          </tbody>
         </table>
       </div>
     );
   }
 }
 
+class Tile extends Component {
+  render() {
+    return (
+      <div
+        className="Tile"
+        style={{ backgroundImage: `url(${"./assets/tiles/" + this.props.tileId + ".png"})` }}
+      />
+    );
+  }
+}
 
 class Player extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.goTop = this.goTop.bind(this);
-    this.goBottom = this.goBottom.bind(this);
-    this.goRight = this.goRight.bind(this);
-    this.goLeft = this.goLeft.bind(this);
+    this.move = this.move.bind(this);
     this.state = {
       posX: 1,
       posY: 0,
-      img: 'charBottom'
+      img: 'charBottom',
+      pixelsPerTile: 48
     }
   }
   //    Checks if tile is an obstacle in the labyrinth after a move (tiles named "500"+)
-  checkTile(x, y){
+  checkTile(x, y) {
     if (parseInt(this.props.labyrinth[this.state.posY + y][this.state.posX + x]) >= 500)
       return false
     return true
   }
-  goRight(event) {
-    if(event.keyCode === 39) {
-      this.setState({img: "charRight"})
-      if(this.state.posX + 1 < this.props.labyrinth[this.state.posY].length && this.checkTile(1,0)){
+  move(event) {
+    // Move right
+    if (event.keyCode === 39) {
+      this.setState({ img: "charRight" })
+      if (this.state.posX + 1 < this.props.labyrinth[this.state.posY].length && this.checkTile(1, 0)) {
         const posX = this.state.posX + 1
-        this.setState({posX})
+        this.setState({ posX })
       }
     }
-  }
-  goLeft(event) {
-    if(event.keyCode === 37) {
-      this.setState({img: "charLeft"})
-      if(this.state.posX > 0 && this.checkTile(-1,0)){
-        const posX = this.state.posX -1
-        this.setState({posX})
+    // Move left
+    if (event.keyCode === 37) {
+      this.setState({ img: "charLeft" })
+      if (this.state.posX > 0 && this.checkTile(-1, 0)) {
+        const posX = this.state.posX - 1
+        this.setState({ posX })
       }
     }
-  }
-  goTop(event) {
-    if(event.keyCode === 40) {
-      this.setState({img: "charBottom"})
-      if(this.state.posY + 1 < this.props.labyrinth.length && this.checkTile(0,1)){
+    // Move down
+    if (event.keyCode === 40) {
+      this.setState({ img: "charBottom" })
+      if (this.state.posY + 1 < this.props.labyrinth.length && this.checkTile(0, 1)) {
         const posY = this.state.posY + 1
-        this.setState({posY})
+        this.setState({ posY })
       }
     }
-  }
-  goBottom(event) {
-    if(event.keyCode === 38) {
-      this.setState({img: "charTop"})
-      if(this.state.posY > 0 && this.checkTile(0,-1)){
+    // Move up
+    if (event.keyCode === 38) {
+      this.setState({ img: "charTop" })
+      if (this.state.posY > 0 && this.checkTile(0, -1)) {
         const posY = this.state.posY - 1
-        this.setState({posY})
+        this.setState({ posY })
       }
     }
   }
-  componentDidMount(){
-    document.addEventListener("keydown", this.goTop, false);
-    document.addEventListener("keydown", this.goBottom, false);
-    document.addEventListener("keydown", this.goRight, false);
-    document.addEventListener("keydown", this.goLeft, false);
+  
+  componentDidMount() {
+    document.addEventListener("keydown", this.move, false)
   }
-  componentWillUnmount(){
-    document.removeEventListener("keydown", this.goTop, false);
-    document.removeEventListener("keydown", this.goBottom, false);
-    document.removeEventListener("keydown", this.goRight, false);
-    document.removeEventListener("keydown", this.goLeft, false);
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.move, false)
   }
+
   render() {
+    //  Player CSS
+    let playerStyle = {
+      position: "absolute",
+      zIndex: 1,
+      backgroundImage: "url(./assets/characters/" + this.state.img + ".png",
+      backgroundSize: "contain",
+      backgroundRepeat: "no-repeat",
+      height: "48px",
+      width: "48px",
+      transitionDuration: "0.5s",
+      // To do: cleaner calculation
+      top: this.state.posY * this.state.pixelsPerTile + 'px',
+      left: 11 + this.state.posX * this.state.pixelsPerTile + 'px'
+    }
+
     return (
-      <div className="Player">
-        <table>
-          {
-            this.props.labyrinth.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {row.map((tileId, colIndex) => 
-                <th key={colIndex}>
-                  <div className="tile">
-                      {
-                        (rowIndex === this.state.posY && colIndex === this.state.posX)?
-                        <img className="character" src={"./assets/characters/"+ this.state.img +".png"} alt="character"/>
-                        : null
-                      }
-                  </div>
-                </th>
-              )}
-            </tr>
-          ))
-          }
-        </table>
-      </div>
+      <div style={playerStyle} />
     );
   }
 }
